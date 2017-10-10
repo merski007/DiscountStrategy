@@ -17,13 +17,13 @@ public class PercentOffDiscount implements DiscountAbstraction {
         return qty * unitCost * percentOff;
     }
 
-    public double getPercentOff() {
+    public final double getPercentOff() {
         return percentOff;
     }
 
-    public void setPercentOff(double percentOff) {
+    public final void setPercentOff(double percentOff) {
         if (percentOff <= 0 || percentOff > 100) {
-            throw new IllegalArgumentException("value must be greater than zero and no bigger then 100");
+            throw new IllegalArgumentException("percentOff must be greater than zero and no bigger then 100");
         }
 
         this.percentOff = percentOff;

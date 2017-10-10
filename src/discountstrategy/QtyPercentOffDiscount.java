@@ -31,7 +31,7 @@ public class QtyPercentOffDiscount implements DiscountAbstraction {
 
     public final void setPercentOff(double percentOff) {
         if (percentOff <= 0 || percentOff > 100) {
-            throw new IllegalArgumentException("value must be greater than zero and no bigger then 100");
+            throw new IllegalArgumentException("percentOff must be greater than zero and no bigger then 100");
         }
 
         this.percentOff = percentOff;
@@ -43,7 +43,7 @@ public class QtyPercentOffDiscount implements DiscountAbstraction {
 
     public final void setMinQty(int minQty) {
         if (minQty < 0) {
-            throw new IllegalArgumentException("value cannot be less then zero");
+            throw new IllegalArgumentException("minQty cannot be less then zero");
         }
         this.minQty = minQty;
     }

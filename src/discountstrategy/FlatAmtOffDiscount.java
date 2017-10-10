@@ -19,7 +19,7 @@ public class FlatAmtOffDiscount implements DiscountAbstraction {
 
     public final void setFlatAmtOff(double flatAmtOff) {
         if (flatAmtOff <= 0 || flatAmtOff > 100) {
-            throw new IllegalArgumentException("value cannot be zero");
+            throw new IllegalArgumentException("flatAmtOff cannot be zero");
         }
 
         this.flatAmtOff = flatAmtOff;

@@ -12,45 +12,57 @@ public class Product {
     private DiscountAbstraction discount;
 
     public Product(String prodId, String prodName, double unitCost, DiscountAbstraction discount) {
-        this.prodId = prodId;
-        this.prodName = prodName;
-        this.unitCost = unitCost;
-        this.discount = discount;
+        setProdId(prodId);
+        setProdName(prodName);
+        setUnitCost(unitCost);
+        setDiscount(discount);
     }
     
-    public double calcDiscount(int qty){
+    public final double calcDiscount(int qty){
         return discount.calcDiscountAmt(qty, unitCost);
     }
 
-    public String getProdId() {
+    public final String getProdId() {
         return prodId;
     }
 
-    public void setProdId(String prodId) {
+    public final void setProdId(String prodId) {
+        if (prodId == null || prodId.length() == 0) {
+            throw new IllegalArgumentException("prodId cannot be blank");
+        }
         this.prodId = prodId;
     }
 
-    public String getProdName() {
+    public final String getProdName() {
         return prodName;
     }
 
-    public void setProdName(String prodName) {
+    public final void setProdName(String prodName) {
+        if (prodName == null || prodName.length() == 0) {
+            throw new IllegalArgumentException("prodName cannot be blank");
+        }
         this.prodName = prodName;
     }
 
-    public double getUnitCost() {
+    public final double getUnitCost() {
         return unitCost;
     }
 
-    public void setUnitCost(double unitCost) {
+    public final void setUnitCost(double unitCost) {
+        if (unitCost <= 0) {
+            throw new IllegalArgumentException("unitCost cannot be less than, or equal to zero");
+        }
         this.unitCost = unitCost;
     }
 
-    public DiscountAbstraction getDiscount() {
+    public final DiscountAbstraction getDiscount() {
         return discount;
     }
 
-    public void setDiscount(DiscountAbstraction discount) {
+    public final void setDiscount(DiscountAbstraction discount) {
+        if (discount == null) {
+            throw new IllegalArgumentException("discount cannot be blank");
+        }
         this.discount = discount;
     }
 

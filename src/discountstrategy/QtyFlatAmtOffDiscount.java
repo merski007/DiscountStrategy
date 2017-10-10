@@ -31,7 +31,7 @@ public class QtyFlatAmtOffDiscount implements DiscountAbstraction {
 
     public final void setFlatAmtOff(double flatAmtOff) {
         if (flatAmtOff <= 0 || flatAmtOff > 100) {
-            throw new IllegalArgumentException("value cannot be zero");
+            throw new IllegalArgumentException("flatAmtOff cannot be zero");
         }
 
         this.flatAmtOff = flatAmtOff;
@@ -43,7 +43,7 @@ public class QtyFlatAmtOffDiscount implements DiscountAbstraction {
 
     public final void setMinQty(int minQty) {
         if (minQty < 0) {
-            throw new IllegalArgumentException("value cannot be less then zero");
+            throw new IllegalArgumentException("minQty cannot be less then zero");
         }
         this.minQty = minQty;
     }
