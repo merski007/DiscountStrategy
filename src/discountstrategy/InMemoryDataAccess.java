@@ -41,9 +41,7 @@ public class InMemoryDataAccess implements ReceiptDataAccessStrategy {
     public final Customer findCustomer(final String custId) {
         // validation is needed for method parameter
         if(custId == null || custId.length() == 0) {
-            System.out.println("Sorry, FakeDatabase.findCustomer method has "
-                    + "illegal argument");
-            return null;  // end method prematurely after log to console
+            throw new IllegalArgumentException("custId is mandatory");
         }
         
         Customer customer = null;
@@ -66,9 +64,7 @@ public class InMemoryDataAccess implements ReceiptDataAccessStrategy {
     public final Product findProduct(final String prodId) {
         // validation is needed for method parameter
         if(prodId == null || prodId.length() == 0) {
-            System.out.println("Sorry, FakeDatabase.findProduct method has "
-                    + "illegal argument");
-            return null;  // end method prematurely after log to console
+            throw new IllegalArgumentException("prodId is mandatory");
         }
         
         Product product = null;
