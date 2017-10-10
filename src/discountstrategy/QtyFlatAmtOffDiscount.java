@@ -20,7 +20,7 @@ public class QtyFlatAmtOffDiscount implements DiscountAbstraction {
         if (qty < minQty) {
             discountAmt = 0;
         } else {
-            discountAmt = (qty * unitCost) - flatAmtOff;
+            discountAmt = flatAmtOff;
         }
         return discountAmt;
     }

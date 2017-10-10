@@ -14,7 +14,7 @@ public class FlatAmtOffDiscount implements DiscountAbstraction {
 
     @Override
     public final double calcDiscountAmt(int qty, double unitCost) {
-        return (qty * unitCost) - flatAmtOff;
+        return flatAmtOff;
     }
 
     public final void setFlatAmtOff(double flatAmtOff) {
