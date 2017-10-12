@@ -22,6 +22,8 @@ public class Receipt {
     public Receipt(String custId, ReceiptDataAccessStrategy db) {
         this.customer = findCustomer(custId);
         setDb(db);
+        ++receiptNumber;
+        receiptDate = new Date();
     }
     
     private final Customer findCustomer(String custId) {

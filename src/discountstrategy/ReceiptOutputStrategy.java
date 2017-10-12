@@ -4,6 +4,6 @@ package discountstrategy;
  *
  * @author mjmersenski
  */
-public class ReceiptOutputStrategy {
-    
+public interface ReceiptOutputStrategy {
+    public abstract void receiptOutput(String output);
 }
