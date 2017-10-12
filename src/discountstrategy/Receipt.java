@@ -9,6 +9,7 @@ import java.text.NumberFormat;
  * @author mjmersenski
  */
 public class Receipt {
+
     private Customer customer;
     private LineItem[] lineItemArray;
     private ReceiptDataAccessStrategy db;
@@ -16,16 +17,15 @@ public class Receipt {
     private Date receiptDate;
     private ReceiptOutputStrategy output;
     private String dateFormat = "M/d/yyyy hh:mm a";
-    
-    
 
     public Receipt(String custId, ReceiptDataAccessStrategy db) {
-        this.customer = findCustomer(custId);
         setDb(db);
+        this.customer = findCustomer(custId);
         ++receiptNumber;
         receiptDate = new Date();
+        lineItemArray = new LineItem[0];
     }
-    
+
     private final Customer findCustomer(String custId) {
         return db.findCustomer(custId);
     }
@@ -35,30 +35,84 @@ public class Receipt {
     }
 
     public final void setDb(ReceiptDataAccessStrategy db) {
-        if(db == null){
+        if (db == null) {
             throw new IllegalArgumentException("db cannot be blank");
         }
         this.db = db;
     }
-    
-    public final void addLineItem(String prodId, int qty){
-        LineItem item = new LineItem(db,prodId,qty);
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public LineItem[] getLineItemArray() {
+        return lineItemArray;
+    }
+
+    public void setLineItemArray(LineItem[] lineItemArray) {
+        this.lineItemArray = lineItemArray;
+    }
+
+    public static int getReceiptNumber() {
+        return receiptNumber;
+    }
+
+    public static void setReceiptNumber(int receiptNumber) {
+        Receipt.receiptNumber = receiptNumber;
+    }
+
+    public Date getReceiptDate() {
+        return receiptDate;
+    }
+
+    public void setReceiptDate(Date receiptDate) {
+        this.receiptDate = receiptDate;
+    }
+
+    public ReceiptOutputStrategy getOutput() {
+        return output;
+    }
+
+    public void setOutput(ReceiptOutputStrategy output) {
+        this.output = output;
+    }
+
+    public String getDateFormat() {
+        return dateFormat;
+    }
+
+    public void setDateFormat(String dateFormat) {
+        this.dateFormat = dateFormat;
+    }
+
+    public final void addLineItem(String prodId, int qty) {
+        LineItem item = new LineItem(db, prodId, qty);
         addToLineItemArray(item);
     }
-    
-    private final void addToLineItemArray(LineItem item){
+
+    private final void addToLineItemArray(LineItem item) {
         LineItem[] tempItems = new LineItem[lineItemArray.length + 1];
         System.arraycopy(lineItemArray, 0, lineItemArray, 0, lineItemArray.length);
         tempItems[lineItemArray.length] = item;
         lineItemArray = tempItems;
     }
     
-    public final String getReceiptDateFormatted(){
+    private final String getLineItem(int index){
+        return lineItemArray[index].toString();
+    }
+
+    public final String getReceiptDateFormatted() {
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
         return sdf.format(receiptDate);
     }
-    
-    public final void outputReceipt(){
+
+    public final void outputReceipt() {
+        StringBuilder receiptData = new StringBuilder("Start Here");
+
         /*
         NumberFormat nf = NumberFormat.getCurrencyInstance();
         final String CRLF = "\n";
@@ -70,7 +124,25 @@ public class Receipt {
         receiptData.append("Date of sale: ").append(getReceiptDateFormatted()).append(CRLF);
         receiptData.append("Receipt number: ").append(Receipt.receiptNumber).append(CRLF2);
         output.outputReceipt(receiptData.toString());
-        */
+         */
     }
-    
+
+    public static void main(String[] args) {
+        ReceiptDataAccessStrategy db = new InMemoryDataAccess();
+        Receipt receipt = new Receipt("100", db);
+
+        System.out.println(receipt.getCustomer().getCustName());
+        System.out.println(receipt.getReceiptDateFormatted());
+        System.out.println(receipt.getReceiptNumber());
+        
+        receipt.addLineItem("A101", 2);
+        //receipt.addLineItem("B205", 1);
+        
+        System.out.println("");
+        //System.out.println(receipt.getLineItemArray());
+        for(LineItem item : receipt.getLineItemArray()){
+            System.out.println(item.getProduct().getProdName());
+        }
+    }
+
 }
