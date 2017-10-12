@@ -29,6 +29,7 @@ public class InMemoryDataAccess implements ReceiptDataAccessStrategy {
     private Product[] products = {
         new Product("A101", "MLB Brewer's Hat ", 19.95, new PercentOffDiscount(0.15)),
         new Product("B205", "Men's Dress Shirt", 35.50, new PercentOffDiscount(0.15)),
+        new Product("B206", "Men's Dress Shirt", 35.50, new FlatAmtOffDiscount(10)),
         new Product("C222", "Women's Socks    ", 9.50, new NoDiscount())
     };
     

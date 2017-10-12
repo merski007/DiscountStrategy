@@ -20,9 +20,8 @@ public class LineItem {
         return db.findProduct(prodId);
     }
     
-    public final double getExtendedCost(int qty) {
-        //this needs work, return is only placeholder text
-        return 0;
+    public final double getExtendedCost() {
+        return qty * product.getUnitCost();
     }
 
     public final ReceiptDataAccessStrategy getDb() {
@@ -58,11 +57,22 @@ public class LineItem {
         this.qty = qty;
     }
 
+    
+    /**
+     * This main was created for testing purposes only
+     * delete before submitting
+     * @param args 
+     */
     public static void main(String[] args) {
         ReceiptDataAccessStrategy db = new InMemoryDataAccess();
-        LineItem test = new LineItem(db, "A101", 2);
+        LineItem test = new LineItem(db, "B206", 2);
         
         String name = test.getProduct().getProdName();
+        double cost = test.getExtendedCost();
+        double discount = test.getProduct().getDiscount().calcDiscountAmt(5, cost);
         System.out.println(name);
+        System.out.println(cost);
+        System.out.println(discount);
+        System.out.println("total: "+(cost-discount));
     }
 }
