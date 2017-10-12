@@ -96,7 +96,7 @@ public class Receipt {
 
     private final void addToLineItemArray(LineItem item) {
         LineItem[] tempItems = new LineItem[lineItemArray.length + 1];
-        System.arraycopy(lineItemArray, 0, lineItemArray, 0, lineItemArray.length);
+        System.arraycopy(lineItemArray, 0, tempItems, 0, lineItemArray.length);
         tempItems[lineItemArray.length] = item;
         lineItemArray = tempItems;
     }
@@ -111,7 +111,7 @@ public class Receipt {
     }
 
     public final void outputReceipt() {
-        StringBuilder receiptData = new StringBuilder("Start Here");
+        String receiptData = "Start Here";
 
         /*
         NumberFormat nf = NumberFormat.getCurrencyInstance();
@@ -136,10 +136,10 @@ public class Receipt {
         System.out.println(receipt.getReceiptNumber());
         
         receipt.addLineItem("A101", 2);
-        //receipt.addLineItem("B205", 1);
+        receipt.addLineItem("B205", 1);
         
         System.out.println("");
-        //System.out.println(receipt.getLineItemArray());
+
         for(LineItem item : receipt.getLineItemArray()){
             System.out.println(item.getProduct().getProdName());
         }
