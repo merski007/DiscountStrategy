@@ -130,7 +130,8 @@ public class Receipt {
     public static void main(String[] args) {
         ReceiptDataAccessStrategy db = new InMemoryDataAccess();
         Receipt receipt = new Receipt("100", db);
-        ReceiptOutputStrategy ro = new ConsoleOutput();
+        ReceiptOutputStrategy co = new ConsoleOutput();
+        ReceiptOutputStrategy guio = new GUIOutput();
 
         System.out.println(receipt.getCustomer().getCustName());
         System.out.println(receipt.getReceiptDateFormatted());
@@ -148,7 +149,8 @@ public class Receipt {
         
         System.out.println("");
         
-        ro.receiptOutput(lineItems);
+        co.receiptOutput(lineItems);
+        guio.receiptOutput(lineItems);
     }
 
 }
