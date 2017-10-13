@@ -110,9 +110,9 @@ public class Receipt {
         return sdf.format(receiptDate);
     }
 
-    public final void outputReceipt() {
+    public final String outputReceipt() {
         String receiptData = "Start Here";
-
+        
         /*
         NumberFormat nf = NumberFormat.getCurrencyInstance();
         final String CRLF = "\n";
@@ -125,6 +125,8 @@ public class Receipt {
         receiptData.append("Receipt number: ").append(Receipt.receiptNumber).append(CRLF2);
         output.outputReceipt(receiptData.toString());
          */
+        
+        return receiptData;
     }
 
     public static void main(String[] args) {
