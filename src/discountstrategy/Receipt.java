@@ -130,6 +130,7 @@ public class Receipt {
     public static void main(String[] args) {
         ReceiptDataAccessStrategy db = new InMemoryDataAccess();
         Receipt receipt = new Receipt("100", db);
+        ReceiptOutputStrategy ro = new ConsoleOutput();
 
         System.out.println(receipt.getCustomer().getCustName());
         System.out.println(receipt.getReceiptDateFormatted());
@@ -139,10 +140,15 @@ public class Receipt {
         receipt.addLineItem("B205", 1);
         
         System.out.println("");
-
+        String lineItems = "";
         for(LineItem item : receipt.getLineItemArray()){
-            System.out.println(item.getProduct().getProdName());
+            //System.out.println(item.getProduct().getProdName());
+            lineItems += item.getProduct().getProdName() + "\n";
         }
+        
+        System.out.println("");
+        
+        ro.receiptOutput(lineItems);
     }
 
 }
