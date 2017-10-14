@@ -12,7 +12,7 @@ public class Startup {
          */
         PosRegister pos = new PosRegister();
         ReceiptDataAccessStrategy db = new InMemoryDataAccess();
-        ReceiptOutputStrategy o = new GUIOutput();
+        ReceiptOutputStrategy o = new ConsoleOutput();
         //ReceiptOutputStrategy guio = new GUIOutput();
         
         //Trans #1

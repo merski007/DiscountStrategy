@@ -20,9 +20,10 @@ public class LineItem {
         return db.findProduct(prodId);
     }
     
-    public final double getExtendedCost() {
+    public final double getLineItemSubTotal() {
         return qty * product.getUnitCost();
     }
+    
 
     public final ReceiptDataAccessStrategy getDb() {
         return db;
@@ -68,7 +69,7 @@ public class LineItem {
         LineItem test = new LineItem(db, "B206", 2);
         
         String name = test.getProduct().getProdName();
-        double cost = test.getExtendedCost();
+        double cost = test.getLineItemSubTotal();
         double discount = test.getProduct().getDiscount().calcDiscountAmt(5, cost);
         System.out.println(name);
         System.out.println(cost);
