@@ -17,6 +17,8 @@ public class Receipt {
     private Date receiptDate;
     private ReceiptOutputStrategy output;
     private String dateFormat = "M/d/yyyy hh:mm a";
+    private double discountTotal;
+    private double orderTotal;
 
     public Receipt(String custId, ReceiptDataAccessStrategy db) {
         setDb(db);
@@ -89,6 +91,25 @@ public class Receipt {
         this.dateFormat = dateFormat;
     }
 
+
+    public double getDiscountTotal() {
+        return discountTotal;
+    }
+
+    public void setDiscountTotal(double discountTotal) {
+        this.discountTotal = discountTotal;
+    }
+
+    public double getOrderTotal() {
+        return orderTotal;
+    }
+
+    public void setOrderTotal(double orderTotal) {
+        this.orderTotal = orderTotal;
+    }
+    
+    
+
     public final void addLineItem(String prodId, int qty) {
         LineItem item = new LineItem(db, prodId, qty);
         addToLineItemArray(item);
@@ -112,7 +133,10 @@ public class Receipt {
 
     public final String outputReceipt() {
         StringBuilder builder = new StringBuilder();
-
+        
+        double subtotal = 0;
+        double discountTotal = 0;
+        
         final String companyName = "Thank you for shopping at Northwinds";
         final String CRLF = "\n";
         final String CRLF2 = "\n\n";
@@ -142,9 +166,11 @@ public class Receipt {
                         break;
                     case 4:
                         tempProdInfo = Double.toString(lineItemArray[row].getLineItemSubTotal());
+                        subtotal += lineItemArray[row].getLineItemSubTotal();
                         break;
                     case 5:
                         tempProdInfo = Double.toString(lineItemArray[row].getProduct().calcDiscount(lineItemArray[row].getQty()));
+                        discountTotal += lineItemArray[row].getProduct().calcDiscount(lineItemArray[row].getQty());
                         break;
                     default:
                         throw new IllegalArgumentException("an error has occured yo");
@@ -153,13 +179,14 @@ public class Receipt {
                 rowData[row][col] = tempProdInfo;
             }
         }
-
+        //adds header to the builder
         for (String x : header) {
             builder.append(x).append("\t");
         }
         
         builder.append(CRLF);
 
+        //adds each line item to the builder
         for (String item[] : rowData) {
             for(String itemDetail: item){
                 builder.append(itemDetail);
@@ -167,10 +194,22 @@ public class Receipt {
             }
             builder.append(CRLF);
         }
-
+        
+        builder.append(Double.toString(subtotal));
+        builder.append(CRLF);
+        builder.append(Double.toString(discountTotal));
+        builder.append(CRLF);
+        
+        orderTotal = subtotal - discountTotal;
+        
+        builder.append(Double.toString(orderTotal));
+        
         return builder.toString();
     }
-
+    
+//--------------------------------------------------------    
+//testing below    
+//--------------------------------------------------------
     public static void main(String[] args) {
         ReceiptDataAccessStrategy db = new InMemoryDataAccess();
         Receipt receipt = new Receipt("100", db);
