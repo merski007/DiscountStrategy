@@ -119,11 +119,7 @@ public class Receipt {
         lineItemArray = tempItems;
     }
 
-    private final String getLineItem(int index) {
-        return lineItemArray[index].toString();
-    }
-
-    public final String getReceiptDateFormatted() {
+    private final String getReceiptDateFormatted() {
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
         return sdf.format(receiptDate);
     }
@@ -143,7 +139,8 @@ public class Receipt {
         builder.append("Receipt No. ").append(getReceiptNumber()).append(CRLF2);
         builder.append("Sold to: ").append(getCustomer().getCustName()).append(CRLF2);
 
-        String[] header = {"Product Id", "Product Name", "Unit Price", "Qty", "Subtotal", "Discount"};
+        String[] header = {"Prod Id", "Prod Name", "Unit Price", "Qty", "Subtotal", "Discount"};
+        String[] headerUnderscores = {"-------", "---------", "----------", "---", "--------", "--------"};
         String[][] rowData = new String[lineItemArray.length][header.length];
         for (int row = 0; row < lineItemArray.length; row++) {
             for (int col = 0; col < header.length; col++) {
@@ -156,17 +153,20 @@ public class Receipt {
                         tempProdInfo = lineItemArray[row].getProduct().getProdName();
                         break;
                     case 2:
-                        tempProdInfo = Double.toString(lineItemArray[row].getProduct().getUnitCost());
+                        //tempProdInfo = Double.toString(lineItemArray[row].getProduct().getUnitCost());
+                        tempProdInfo = String.format("%.2f", lineItemArray[row].getProduct().getUnitCost());
                         break;
                     case 3:
                         tempProdInfo = Integer.toString(lineItemArray[row].getQty());
                         break;
                     case 4:
-                        tempProdInfo = Double.toString(lineItemArray[row].getLineItemSubTotal());
+                        //tempProdInfo = Double.toString(lineItemArray[row].getLineItemSubTotal());
+                        tempProdInfo = String.format("%.2f", lineItemArray[row].getLineItemSubTotal());
                         subtotal += lineItemArray[row].getLineItemSubTotal();
                         break;
                     case 5:
-                        tempProdInfo = Double.toString(lineItemArray[row].getProduct().calcDiscount(lineItemArray[row].getQty()));
+                        //tempProdInfo = Double.toString(lineItemArray[row].getProduct().calcDiscount(lineItemArray[row].getQty()));
+                        tempProdInfo = String.format("%.2f", lineItemArray[row].getProduct().calcDiscount(lineItemArray[row].getQty()));
                         discountTotal += lineItemArray[row].getProduct().calcDiscount(lineItemArray[row].getQty());
                         break;
                     default:
@@ -177,30 +177,44 @@ public class Receipt {
             }
         }
         //adds header to the builder
-        for (String x : header) {
-            builder.append(x).append("\t");
-        }
+//        for (String x : header) {
+//            builder.append(x).append("\t");
+//        }
 
+        builder.append(String.format("%-9s%-30s%-12s%-5s%-10s%-10s", header));
+        builder.append(CRLF);
+        builder.append(String.format("%-9s%-30s%-12s%-5s%-10s%-10s", headerUnderscores));
         builder.append(CRLF);
 
         //adds each line item to the builder
         for (String item[] : rowData) {
-            for (String itemDetail : item) {
-                builder.append(itemDetail);
-                builder.append("\t");
-            }
+            builder.append(String.format("%-9s%-30s%-12s%-5s%-10s%-10s", item));
+//            for (String itemDetail : item) {
+//                builder.append(itemDetail);
+//                builder.append("\t");
+//            }
             builder.append(CRLF);
         }
 
-        builder.append(Double.toString(subtotal));
         builder.append(CRLF);
-        builder.append(Double.toString(discountTotal));
+        //builder.append(Double.toString(subtotal));
+        builder.append(String.format("%66s","Subtotal"));
+        builder.append(String.format("%2s%.2f", "$",subtotal));
+        builder.append(CRLF);
+        //builder.append(Double.toString(discountTotal));
+        builder.append(String.format("%66s","Discounts"));
+        builder.append(String.format("%2s%.2f", "$",discountTotal));
         builder.append(CRLF);
 
         double orderTotal = subtotal - discountTotal;
 
-        builder.append(Double.toString(orderTotal));
-
+        //builder.append(Double.toString(orderTotal));
+        builder.append(String.format("%66s","Order Total"));
+        builder.append(String.format("%2s%.2f", "$",orderTotal));
+        builder.append(CRLF);
+        builder.append("----------------------------------------------------------------------------");
+        builder.append(CRLF);
+        
         return builder.toString();
     }
 
@@ -228,7 +242,7 @@ public class Receipt {
 
 //        System.out.println("");
         //System.out.println(receipt.lineItemArray.length);
-        guio.receiptOutput(receipt.outputReceipt());
+        co.receiptOutput(receipt.outputReceipt());
         //guio.receiptOutput(lineItems);
     }
 
