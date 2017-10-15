@@ -25,13 +25,47 @@ public class InMemoryDataAccess implements ReceiptDataAccessStrategy {
 //        new Product("C222", "Women's Socks    ", 9.50, new NoDiscount())
 //    };
 
-    
+    //scenario used for program build
     private Product[] products = {
         new Product("A101", "MLB Brewer's Hat ", 19.95, new PercentOffDiscount(0.15)),
+        new Product("A102", "MLB Pirate's Hat ", 19.95, new QtyPercentOffDiscount(.10,5)),
+        new Product("A103", "MLB Cub's Hat ", 19.95, new QtyFlatAmtOffDiscount(10,5)),
+        new Product("A104", "MLB Cardinal's Hat ", 19.95, new FlatAmtOffDiscount(10)),
         new Product("B205", "Men's Dress Shirt", 35.50, new PercentOffDiscount(0.15)),
-        new Product("B206", "Men's Dress Shirt", 35.50, new FlatAmtOffDiscount(10)),
         new Product("C222", "Women's Socks    ", 9.50, new NoDiscount())
     };
+    
+    //test case 1
+    //QtyPercentOffDiscount
+//    private Product[] products = {
+//        new Product("A101", "MLB Brewer's Hat ", 19.95, new QtyPercentOffDiscount(.10,5)),
+//        new Product("B205", "Men's Dress Shirt", 35.50, new QtyPercentOffDiscount(.10,5)),
+//        new Product("C222", "Women's Socks    ", 9.50, new NoDiscount())
+//    };
+    
+    //test case 2
+    //QtyFlatAmtOffDiscount
+//    private Product[] products = {
+//        new Product("A101", "MLB Brewer's Hat ", 19.95, new QtyFlatAmtOffDiscount(10,5)),
+//        new Product("B205", "Men's Dress Shirt", 35.50, new QtyFlatAmtOffDiscount(10,5)),
+//        new Product("C222", "Women's Socks    ", 9.50, new NoDiscount())
+//    };
+    
+    //test case 3
+    //PercentOffDiscount
+//    private Product[] products = {
+//        new Product("A101", "MLB Brewer's Hat ", 19.95, new PercentOffDiscount(.1)),
+//        new Product("B205", "Men's Dress Shirt", 35.50, new PercentOffDiscount(.2)),
+//        new Product("C222", "Women's Socks    ", 9.50, new NoDiscount())
+//    };
+    
+    //test case 4
+    //FlatAmttOffDiscount
+//    private Product[] products = {
+//        new Product("A101", "MLB Brewer's Hat ", 19.95, new FlatAmtOffDiscount(10)),
+//        new Product("B205", "Men's Dress Shirt", 35.50, new FlatAmtOffDiscount(20)),
+//        new Product("C222", "Women's Socks    ", 9.50, new NoDiscount())
+//    };
     
     /**
      * Tries to find a Customer by customer id.
