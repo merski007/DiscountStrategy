@@ -16,9 +16,9 @@ public class Startup {
         //ReceiptOutputStrategy guio = new GUIOutput();
         
         //Trans #1
-        pos.startNewSale("C101", db);
+        pos.startNewSale("100", db);
         pos.addItemToSale("A101", 2);
-        pos.addItemToSale("B101", 2);
+        pos.addItemToSale("B205", 2);
         pos.endSale(o);
         
     }
