@@ -41,51 +41,69 @@ public class Receipt {
         this.db = db;
     }
 
-    public Customer getCustomer() {
+    public final Customer getCustomer() {
         return customer;
     }
 
-    public void setCustomer(Customer customer) {
+    public final void setCustomer(Customer customer) {
+        if (customer == null) {
+            throw new IllegalArgumentException("customer cannot be blank");
+        }
         this.customer = customer;
     }
 
-    public LineItem[] getLineItemArray() {
+    public final LineItem[] getLineItemArray() {
         return lineItemArray;
     }
 
-    public void setLineItemArray(LineItem[] lineItemArray) {
+    public final void setLineItemArray(LineItem[] lineItemArray) {
+        if (lineItemArray == null) {
+            throw new IllegalArgumentException("lineItemArray cannot be blank");
+        }
         this.lineItemArray = lineItemArray;
     }
 
-    public static int getReceiptNumber() {
+    public final static int getReceiptNumber() {
         return receiptNumber;
     }
 
-    public static void setReceiptNumber(int receiptNumber) {
+    public final static void setReceiptNumber(int receiptNumber) {
+        if (receiptNumber <= 0) {
+            throw new IllegalArgumentException("receiptNumber cannot be less then zero");
+        }
         Receipt.receiptNumber = receiptNumber;
     }
 
-    public Date getReceiptDate() {
+    public final Date getReceiptDate() {
         return receiptDate;
     }
 
-    public void setReceiptDate(Date receiptDate) {
+    public final void setReceiptDate(Date receiptDate) {
+        if (receiptDate == null) {
+            throw new IllegalArgumentException("receiptDate cannot be empty");
+        }
         this.receiptDate = receiptDate;
     }
 
-    public ReceiptOutputStrategy getOutput() {
+    public final ReceiptOutputStrategy getOutput() {
         return output;
     }
 
-    public void setOutput(ReceiptOutputStrategy output) {
+    public final void setOutput(ReceiptOutputStrategy output) {
+        if (output == null) {
+            throw new IllegalArgumentException("output cannot be empty");
+        }
         this.output = output;
     }
 
-    public String getDateFormat() {
+    public final String getDateFormat() {
         return dateFormat;
     }
 
-    public void setDateFormat(String dateFormat) {
+    public final void setDateFormat(String dateFormat) {
+        if (dateFormat == null) {
+            throw new IllegalArgumentException("dateFormat cannot be empty");
+        }
         this.dateFormat = dateFormat;
     }
 

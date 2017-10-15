@@ -12,15 +12,15 @@ public class ReceiptGenerator {
         receipt = new Receipt(custId, db);
     }
 
-    public void addLineItem(String prodId, int qty) {
+    public final void addLineItem(String prodId, int qty) {
         receipt.addLineItem(prodId, qty);
     }
 
-    public void outputSalesReceipt(ReceiptOutputStrategy view) {
+    public final void outputSalesReceipt(ReceiptOutputStrategy view) {
         view.receiptOutput(receipt.outputReceipt());
     }
     
-    public void outputCancelReceipt(ReceiptOutputStrategy view) {
+    public final void outputCancelReceipt(ReceiptOutputStrategy view) {
         view.receiptOutput("Transaction has been cancelled.");
     }
 
