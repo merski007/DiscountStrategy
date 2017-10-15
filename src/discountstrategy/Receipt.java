@@ -10,7 +10,6 @@ import java.text.NumberFormat;
  */
 public class Receipt {
 
-    
     private Customer customer;
     private LineItem[] lineItemArray;
     private ReceiptDataAccessStrategy db;
@@ -101,8 +100,8 @@ public class Receipt {
         tempItems[lineItemArray.length] = item;
         lineItemArray = tempItems;
     }
-    
-    private final String getLineItem(int index){
+
+    private final String getLineItem(int index) {
         return lineItemArray[index].toString();
     }
 
@@ -110,19 +109,25 @@ public class Receipt {
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
         return sdf.format(receiptDate);
     }
-    
 
     public final String outputReceipt() {
-        //String receiptData = "Start Here";
+        StringBuilder builder = new StringBuilder();
+
+        final String companyName = "Thank you for shopping at Northwinds";
         final String CRLF = "\n";
         final String CRLF2 = "\n\n";
-        
-        String[] header = {"Product Id", "Product Name", "Unit Price","Qty","Subtotal", "Discount"};
-        String[][] rowData = new String[header.length][lineItemArray.length];
-        for(int row = 0; row < lineItemArray.length; row++){
-            for(int col = 0; col < header.length; col++){
+
+        builder.append(companyName).append(CRLF);
+        builder.append(getReceiptDateFormatted()).append(CRLF);
+        builder.append("Receipt No. ").append(getReceiptNumber()).append(CRLF2);
+        builder.append("Sold to: ").append(getCustomer().getCustName()).append(CRLF2);
+
+        String[] header = {"Product Id", "Product Name", "Unit Price", "Qty", "Subtotal", "Discount"};
+        String[][] rowData = new String[lineItemArray.length][header.length];
+        for (int row = 0; row < lineItemArray.length; row++) {
+            for (int col = 0; col < header.length; col++) {
                 String tempProdInfo = "";
-                switch(col){
+                switch (col) {
                     case 0:
                         tempProdInfo = lineItemArray[row].getProduct().getProdId();
                         break;
@@ -140,16 +145,30 @@ public class Receipt {
                         break;
                     case 5:
                         tempProdInfo = Double.toString(lineItemArray[row].getProduct().calcDiscount(lineItemArray[row].getQty()));
+                        break;
                     default:
                         throw new IllegalArgumentException("an error has occured yo");
                 }
-                System.out.println(header.length);
-                System.out.println(tempProdInfo);
+                //System.out.println(tempProdInfo);
                 rowData[row][col] = tempProdInfo;
             }
         }
+
+        for (String x : header) {
+            builder.append(x).append("\t");
+        }
         
-        return header + CRLF + rowData;
+        builder.append(CRLF);
+
+        for (String item[] : rowData) {
+            for(String itemDetail: item){
+                builder.append(itemDetail);
+                builder.append("\t");
+            }
+            builder.append(CRLF);
+        }
+
+        return builder.toString();
     }
 
     public static void main(String[] args) {
@@ -158,22 +177,21 @@ public class Receipt {
         ReceiptOutputStrategy co = new ConsoleOutput();
         ReceiptOutputStrategy guio = new GUIOutput();
 
-        System.out.println(receipt.getCustomer().getCustName());
-        System.out.println(receipt.getReceiptDateFormatted());
-        System.out.println(receipt.getReceiptNumber());
-        
+//        System.out.println(receipt.getCustomer().getCustName());
+//        System.out.println(receipt.getReceiptDateFormatted());
+//        System.out.println(receipt.getReceiptNumber());
+
         receipt.addLineItem("A101", 2);
-        //receipt.addLineItem("B205", 1);
-        
+        receipt.addLineItem("B205", 1);
+
         System.out.println("");
 //        String lineItems = "";
 //        for(LineItem item : receipt.getLineItemArray()){
 //            System.out.println(item.getProduct().getProdName());
 //            lineItems += item.getProduct().getProdName() + "\n";
 //        }
-        
+
 //        System.out.println("");
-        
         //System.out.println(receipt.lineItemArray.length);
         co.receiptOutput(receipt.outputReceipt());
         //guio.receiptOutput(lineItems);
