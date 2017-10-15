@@ -17,11 +17,11 @@ public class PosRegister {
     }
 
     public final void endSale(ReceiptOutputStrategy view) {
-        rg.outputReceipt(view);
+        rg.outputSalesReceipt(view);
     }
 
-    public final void cancelSale() {
-
+    public final void cancelSale(ReceiptOutputStrategy view) {
+        rg.outputCancelReceipt(view);
     }
 
 }

@@ -16,8 +16,12 @@ public class ReceiptGenerator {
         receipt.addLineItem(prodId, qty);
     }
 
-    public void outputReceipt(ReceiptOutputStrategy view) {
+    public void outputSalesReceipt(ReceiptOutputStrategy view) {
         view.receiptOutput(receipt.outputReceipt());
+    }
+    
+    public void outputCancelReceipt(ReceiptOutputStrategy view) {
+        view.receiptOutput("Transaction has been cancelled.");
     }
 
 }

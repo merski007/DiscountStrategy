@@ -20,6 +20,13 @@ public class Startup {
         pos.addItemToSale("A101", 2);
         pos.addItemToSale("B205", 2);
         pos.endSale(o);
+        //pos.cancelSale(o);
+        
+        //Trans #2
+        pos.startNewSale("100", db);
+        pos.addItemToSale("A101", 2);
+        pos.addItemToSale("B205", 2);
+        pos.endSale(o);
         
     }
 }
