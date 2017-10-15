@@ -141,6 +141,9 @@ public class Receipt {
 
         String[] header = {"Prod Id", "Prod Name", "Unit Price", "Qty", "Subtotal", "Discount"};
         String[] headerUnderscores = {"-------", "---------", "----------", "---", "--------", "--------"};
+        
+        //create 2d array for line item info
+        //also will convert, and format, numerics into strings
         String[][] rowData = new String[lineItemArray.length][header.length];
         for (int row = 0; row < lineItemArray.length; row++) {
             for (int col = 0; col < header.length; col++) {
@@ -153,34 +156,27 @@ public class Receipt {
                         tempProdInfo = lineItemArray[row].getProduct().getProdName();
                         break;
                     case 2:
-                        //tempProdInfo = Double.toString(lineItemArray[row].getProduct().getUnitCost());
                         tempProdInfo = String.format("%.2f", lineItemArray[row].getProduct().getUnitCost());
                         break;
                     case 3:
                         tempProdInfo = Integer.toString(lineItemArray[row].getQty());
                         break;
                     case 4:
-                        //tempProdInfo = Double.toString(lineItemArray[row].getLineItemSubTotal());
                         tempProdInfo = String.format("%.2f", lineItemArray[row].getLineItemSubTotal());
                         subtotal += lineItemArray[row].getLineItemSubTotal();
                         break;
                     case 5:
-                        //tempProdInfo = Double.toString(lineItemArray[row].getProduct().calcDiscount(lineItemArray[row].getQty()));
                         tempProdInfo = String.format("%.2f", lineItemArray[row].getProduct().calcDiscount(lineItemArray[row].getQty()));
                         discountTotal += lineItemArray[row].getProduct().calcDiscount(lineItemArray[row].getQty());
                         break;
                     default:
                         throw new IllegalArgumentException("an error has occured yo");
                 }
-                //System.out.println(tempProdInfo);
                 rowData[row][col] = tempProdInfo;
             }
         }
-        //adds header to the builder
-//        for (String x : header) {
-//            builder.append(x).append("\t");
-//        }
 
+        //add header info to builder
         builder.append(String.format("%-9s%-30s%-12s%-5s%-10s%-10s", header));
         builder.append(CRLF);
         builder.append(String.format("%-9s%-30s%-12s%-5s%-10s%-10s", headerUnderscores));
@@ -189,61 +185,26 @@ public class Receipt {
         //adds each line item to the builder
         for (String item[] : rowData) {
             builder.append(String.format("%-9s%-30s%-12s%-5s%-10s%-10s", item));
-//            for (String itemDetail : item) {
-//                builder.append(itemDetail);
-//                builder.append("\t");
-//            }
             builder.append(CRLF);
         }
 
         builder.append(CRLF);
-        //builder.append(Double.toString(subtotal));
-        builder.append(String.format("%66s","Subtotal"));
-        builder.append(String.format("%2s%.2f", "$",subtotal));
+        builder.append(String.format("%66s", "Subtotal"));
+        builder.append(String.format("%2s%.2f", "$", subtotal));
         builder.append(CRLF);
-        //builder.append(Double.toString(discountTotal));
-        builder.append(String.format("%66s","Discounts"));
-        builder.append(String.format("%2s%.2f", "$",discountTotal));
+        builder.append(String.format("%66s", "Discounts"));
+        builder.append(String.format("%2s%.2f", "$", discountTotal));
         builder.append(CRLF);
 
         double orderTotal = subtotal - discountTotal;
 
-        //builder.append(Double.toString(orderTotal));
-        builder.append(String.format("%66s","Order Total"));
-        builder.append(String.format("%2s%.2f", "$",orderTotal));
+        builder.append(String.format("%66s", "Order Total"));
+        builder.append(String.format("%2s%.2f", "$", orderTotal));
         builder.append(CRLF);
         builder.append("----------------------------------------------------------------------------");
         builder.append(CRLF);
-        
+
         return builder.toString();
-    }
-
-//--------------------------------------------------------    
-//testing below    
-//--------------------------------------------------------
-    public static void main(String[] args) {
-        ReceiptDataAccessStrategy db = new InMemoryDataAccess();
-        Receipt receipt = new Receipt("100", db);
-        ReceiptOutputStrategy co = new ConsoleOutput();
-        ReceiptOutputStrategy guio = new GUIOutput();
-
-//        System.out.println(receipt.getCustomer().getCustName());
-//        System.out.println(receipt.getReceiptDateFormatted());
-//        System.out.println(receipt.getReceiptNumber());
-        receipt.addLineItem("A101", 2);
-        receipt.addLineItem("B205", 1);
-
-        System.out.println("");
-//        String lineItems = "";
-//        for(LineItem item : receipt.getLineItemArray()){
-//            System.out.println(item.getProduct().getProdName());
-//            lineItems += item.getProduct().getProdName() + "\n";
-//        }
-
-//        System.out.println("");
-        //System.out.println(receipt.lineItemArray.length);
-        co.receiptOutput(receipt.outputReceipt());
-        //guio.receiptOutput(lineItems);
     }
 
 }
