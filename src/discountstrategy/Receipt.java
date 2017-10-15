@@ -232,7 +232,7 @@ public class Receipt {
 
 //        System.out.println("");
         //System.out.println(receipt.lineItemArray.length);
-        co.receiptOutput(receipt.outputReceipt());
+        guio.receiptOutput(receipt.outputReceipt());
         //guio.receiptOutput(lineItems);
     }
 
