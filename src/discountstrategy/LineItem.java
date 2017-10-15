@@ -58,22 +58,4 @@ public class LineItem {
         this.qty = qty;
     }
 
-    
-    /**
-     * This main was created for testing purposes only
-     * delete before submitting
-     * @param args 
-     */
-    public static void main(String[] args) {
-        ReceiptDataAccessStrategy db = new InMemoryDataAccess();
-        LineItem test = new LineItem(db, "B206", 2);
-        
-        String name = test.getProduct().getProdName();
-        double cost = test.getLineItemSubTotal();
-        double discount = test.getProduct().getDiscount().calcDiscountAmt(5, cost);
-        System.out.println(name);
-        System.out.println(cost);
-        System.out.println(discount);
-        System.out.println("total: "+(cost-discount));
-    }
 }
