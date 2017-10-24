@@ -9,7 +9,12 @@ public class ReceiptGenerator {
     private Receipt receipt;
 
     public ReceiptGenerator(String custId, ReceiptDataAccessStrategy db) {
+        try{
         receipt = new Receipt(custId, db);
+        }
+        catch(IllegalArgumentException iae){
+            iae.getMessage();
+        }
     }
 
     public final void addLineItem(String prodId, int qty) {

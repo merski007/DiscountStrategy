@@ -18,7 +18,7 @@ public class Receipt {
     private ReceiptOutputStrategy output;
     private String dateFormat = "M/d/yyyy hh:mm a";
 
-    public Receipt(String custId, ReceiptDataAccessStrategy db) {
+    public Receipt(String custId, ReceiptDataAccessStrategy db) throws IllegalArgumentException {
         setDb(db);
         this.customer = findCustomer(custId);
         ++receiptNumber;
@@ -34,7 +34,7 @@ public class Receipt {
         return db;
     }
 
-    public final void setDb(ReceiptDataAccessStrategy db) {
+    public final void setDb(ReceiptDataAccessStrategy db) throws IllegalArgumentException {
         if (db == null) {
             throw new IllegalArgumentException("db cannot be blank");
         }
@@ -45,7 +45,7 @@ public class Receipt {
         return customer;
     }
 
-    public final void setCustomer(Customer customer) {
+    public final void setCustomer(Customer customer)throws IllegalArgumentException {
         if (customer == null) {
             throw new IllegalArgumentException("customer cannot be blank");
         }
@@ -56,7 +56,7 @@ public class Receipt {
         return lineItemArray;
     }
 
-    public final void setLineItemArray(LineItem[] lineItemArray) {
+    public final void setLineItemArray(LineItem[] lineItemArray)throws IllegalArgumentException {
         if (lineItemArray == null) {
             throw new IllegalArgumentException("lineItemArray cannot be blank");
         }
@@ -67,7 +67,7 @@ public class Receipt {
         return receiptNumber;
     }
 
-    public final static void setReceiptNumber(int receiptNumber) {
+    public final static void setReceiptNumber(int receiptNumber)throws IllegalArgumentException {
         if (receiptNumber <= 0) {
             throw new IllegalArgumentException("receiptNumber cannot be less then zero");
         }
@@ -78,7 +78,7 @@ public class Receipt {
         return receiptDate;
     }
 
-    public final void setReceiptDate(Date receiptDate) {
+    public final void setReceiptDate(Date receiptDate)throws IllegalArgumentException {
         if (receiptDate == null) {
             throw new IllegalArgumentException("receiptDate cannot be empty");
         }
@@ -89,7 +89,7 @@ public class Receipt {
         return output;
     }
 
-    public final void setOutput(ReceiptOutputStrategy output) {
+    public final void setOutput(ReceiptOutputStrategy output)throws IllegalArgumentException {
         if (output == null) {
             throw new IllegalArgumentException("output cannot be empty");
         }
@@ -100,7 +100,7 @@ public class Receipt {
         return dateFormat;
     }
 
-    public final void setDateFormat(String dateFormat) {
+    public final void setDateFormat(String dateFormat)throws IllegalArgumentException {
         if (dateFormat == null) {
             throw new IllegalArgumentException("dateFormat cannot be empty");
         }
