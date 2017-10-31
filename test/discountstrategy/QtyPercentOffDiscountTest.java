@@ -37,9 +37,9 @@ public class QtyPercentOffDiscountTest {
     @Test
     public void calcDiscountAmtReturnGreaterThanZero(){
         QtyPercentOffDiscount qpod = new QtyPercentOffDiscount(.5, 5);
-        assertEquals(2.5,qpod.calcDiscountAmt(5, 1.0),0);
-        assertEquals(3,qpod.calcDiscountAmt(6, 1.0),0);
-        assertEquals(3.5,qpod.calcDiscountAmt(7, 1.0),0);
+        assertEquals(2.5,qpod.calcDiscountAmt(5, 1.0),0.009);
+        assertEquals(3,qpod.calcDiscountAmt(6, 1.0),0.009);
+        assertEquals(3.5,qpod.calcDiscountAmt(7, 1.0),0.009);
     }
     
     @Test(expected = IllegalArgumentException.class)
