@@ -3,6 +3,8 @@ package discountstrategy;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -11,7 +13,8 @@ import java.text.NumberFormat;
 public class Receipt {
 
     private Customer customer;
-    private LineItem[] lineItemArray;
+//    private LineItem[] lineItemArray;
+    private List<LineItem> lineItemArrayList;
     private ReceiptDataAccessStrategy db;
     private static int receiptNumber = 0;
     private Date receiptDate;
@@ -23,7 +26,8 @@ public class Receipt {
         this.customer = findCustomer(custId);
         ++receiptNumber;
         receiptDate = new Date();
-        lineItemArray = new LineItem[0];
+//        lineItemArray = new LineItem[0];
+        lineItemArrayList = new ArrayList<>();
     }
 
     private final Customer findCustomer(String custId) {
@@ -52,16 +56,16 @@ public class Receipt {
         this.customer = customer;
     }
 
-    public final LineItem[] getLineItemArray() {
-        return lineItemArray;
-    }
+//    public final LineItem[] getLineItemArray() {
+//        return lineItemArray;
+//    }
 
-    public final void setLineItemArray(LineItem[] lineItemArray)throws IllegalArgumentException {
-        if (lineItemArray == null) {
-            throw new IllegalArgumentException("lineItemArray cannot be blank");
-        }
-        this.lineItemArray = lineItemArray;
-    }
+//    public final void setLineItemArray(LineItem[] lineItemArray)throws IllegalArgumentException {
+//        if (lineItemArray == null) {
+//            throw new IllegalArgumentException("lineItemArray cannot be blank");
+//        }
+//        this.lineItemArray = lineItemArray;
+//    }
 
     public final static int getReceiptNumber() {
         return receiptNumber;
@@ -109,15 +113,16 @@ public class Receipt {
 
     public final void addLineItem(String prodId, int qty) {
         LineItem item = new LineItem(db, prodId, qty);
-        addToLineItemArray(item);
+//        addToLineItemArray(item);
+        lineItemArrayList.add(item);
     }
 
-    private final void addToLineItemArray(LineItem item) {
-        LineItem[] tempItems = new LineItem[lineItemArray.length + 1];
-        System.arraycopy(lineItemArray, 0, tempItems, 0, lineItemArray.length);
-        tempItems[lineItemArray.length] = item;
-        lineItemArray = tempItems;
-    }
+//    private final void addToLineItemArray(LineItem item) {
+//        LineItem[] tempItems = new LineItem[lineItemArray.length + 1];
+//        System.arraycopy(lineItemArray, 0, tempItems, 0, lineItemArray.length);
+//        tempItems[lineItemArray.length] = item;
+//        lineItemArray = tempItems;
+//    }
 
     private final String getReceiptDateFormatted() {
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
@@ -144,30 +149,61 @@ public class Receipt {
         
         //create 2d array for line item info
         //also will convert, and format, numerics into strings
-        String[][] rowData = new String[lineItemArray.length][header.length];
-        for (int row = 0; row < lineItemArray.length; row++) {
+//        String[][] rowData = new String[lineItemArray.length][header.length];
+//        for (int row = 0; row < lineItemArray.length; row++) {
+//            for (int col = 0; col < header.length; col++) {
+//                String tempProdInfo = "";
+//                switch (col) {
+//                    case 0:
+//                        tempProdInfo = lineItemArray[row].getProduct().getProdId();
+//                        break;
+//                    case 1:
+//                        tempProdInfo = lineItemArray[row].getProduct().getProdName();
+//                        break;
+//                    case 2:
+//                        tempProdInfo = String.format("%.2f", lineItemArray[row].getProduct().getUnitCost());
+//                        break;
+//                    case 3:
+//                        tempProdInfo = Integer.toString(lineItemArray[row].getQty());
+//                        break;
+//                    case 4:
+//                        tempProdInfo = String.format("%.2f", lineItemArray[row].getLineItemSubTotal());
+//                        subtotal += lineItemArray[row].getLineItemSubTotal();
+//                        break;
+//                    case 5:
+//                        tempProdInfo = String.format("%.2f", lineItemArray[row].getProduct().calcDiscount(lineItemArray[row].getQty()));
+//                        discountTotal += lineItemArray[row].getProduct().calcDiscount(lineItemArray[row].getQty());
+//                        break;
+//                    default:
+//                        throw new IllegalArgumentException("an error has occured yo");
+//                }
+//                rowData[row][col] = tempProdInfo;
+//            }
+//        }
+        String[][] rowData = new String[lineItemArrayList.size()][header.length];
+        for (int row = 0; row < lineItemArrayList.size(); row++) {
             for (int col = 0; col < header.length; col++) {
                 String tempProdInfo = "";
                 switch (col) {
                     case 0:
-                        tempProdInfo = lineItemArray[row].getProduct().getProdId();
+                        tempProdInfo = lineItemArrayList.get(row).getProduct().getProdId();
                         break;
                     case 1:
-                        tempProdInfo = lineItemArray[row].getProduct().getProdName();
+                        tempProdInfo = lineItemArrayList.get(row).getProduct().getProdName();
                         break;
                     case 2:
-                        tempProdInfo = String.format("%.2f", lineItemArray[row].getProduct().getUnitCost());
+                        tempProdInfo = String.format("%.2f", lineItemArrayList.get(row).getProduct().getUnitCost());
                         break;
                     case 3:
-                        tempProdInfo = Integer.toString(lineItemArray[row].getQty());
+                        tempProdInfo = Integer.toString(lineItemArrayList.get(row).getQty());
                         break;
                     case 4:
-                        tempProdInfo = String.format("%.2f", lineItemArray[row].getLineItemSubTotal());
-                        subtotal += lineItemArray[row].getLineItemSubTotal();
+                        tempProdInfo = String.format("%.2f", lineItemArrayList.get(row).getLineItemSubTotal());
+                        subtotal += lineItemArrayList.get(row).getLineItemSubTotal();
                         break;
                     case 5:
-                        tempProdInfo = String.format("%.2f", lineItemArray[row].getProduct().calcDiscount(lineItemArray[row].getQty()));
-                        discountTotal += lineItemArray[row].getProduct().calcDiscount(lineItemArray[row].getQty());
+                        tempProdInfo = String.format("%.2f", lineItemArrayList.get(row).getProduct().calcDiscount(lineItemArrayList.get(row).getQty()));
+                        discountTotal += lineItemArrayList.get(row).getProduct().calcDiscount(lineItemArrayList.get(row).getQty());
                         break;
                     default:
                         throw new IllegalArgumentException("an error has occured yo");
